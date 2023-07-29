@@ -8,7 +8,7 @@ pipeline {
 */
     environment {
         registry = "ivesaid53/vproappdock"
-        registryCredintial = "dockerhub"
+        registryCredential = "dockerhub"
     }
 
     stages{
@@ -81,9 +81,9 @@ pipeline {
         stage('Upload Image to registry'){
         steps{
             script{
-            docker.withRegistry('', registryCredintial){
-            docker.Image.push("V$BUILD_NUMBER")
-            dockerImage.push('latest')
+                docker.withRegistry( '', registryCredential ) {
+                dockerImage.push("$BUILD_NUMBER")
+                dockerImage.push('latest')
             }
             }
         }
