@@ -74,15 +74,15 @@ pipeline {
         stage('Build Docker App Image'){
         steps {
             script {
-            dockerImage = docker.build registry + ":$BUILD_NUMBER"
+            dockerImage = docker.build registry + ":$BUILD_NUMBER" // imported from docker pipepline plugin //
             }
         }
         }
         stage('Upload Image to registry'){
         steps{
-            script{
+            script{ // use of script because we need to execute plugin based commands //
                 docker.withRegistry( '', registryCredential ) {
-                dockerImage.push("$BUILD_NUMBER")
+                dockerImage.push("$BUILD_NUMBER") // Build Number is a jenkins inbuild parameter which signifies the current build number //
                 dockerImage.push('latest')
             }
             }
@@ -90,7 +90,7 @@ pipeline {
         }
         stage('Remove Unused docker image') {
                   steps{
-                    sh "docker rmi $registry:$BUILD_NUMBER"
+                    sh "docker rmi $registry:$BUILD_NUMBER" // Use of sh is because of actually using a shell command //  
                   }
         }
 
